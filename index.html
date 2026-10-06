@@ -1,1 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativa Interactiva de Motores de Bases de Datos</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #172554, #2563eb);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .autor {
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .intro {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .intro h2 {
+            color: #1d4ed8;
+            margin-bottom: 12px;
+        }
+
+        .motores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .motor {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: 0.25s;
+        }
+
+        .motor:hover {
+            transform: translateY(-4px);
+            border-color: #2563eb;
+        }
+
+        .motor.activo {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .motor h3 {
+            color: #1d4ed8;
+            margin-bottom: 8px;
+        }
+
+        .motor span {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .detalle {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+        }
+
+        .detalle h2 {
+            color: #1d4ed8;
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 5px solid #2563eb;
+        }
+
+        .info-box h3 {
+            margin-bottom: 8px;
+            color: #1e3a8a;
+        }
+
+        .busqueda {
+            margin-bottom: 20px;
+        }
+
+        .busqueda input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .busqueda input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .comparacion {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+            overflow-x: auto;
+        }
+
+        .comparacion h2 {
+            color: #1d4ed8;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: white;
+            padding: 13px;
+            text-align: left;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .seccion {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+        }
+
+        .seccion h2 {
+            color: #1d4ed8;
+            margin-bottom: 18px;
+        }
+
+        .seccion ul {
+            padding-left: 25px;
+        }
+
+        .seccion li {
+            margin-bottom: 10px;
+        }
+
+        .referencias a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .referencias a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Comparativa Interactiva</h1>
+    <p>Motores de Bases de Datos Relacionales</p>
+    <div class="autor">
+        Juan José Serrano
+    </div>
+</header>
+
+
+<div class="container">
+
+    <section class="intro">
+        <h2>Introducción</h2>
+
+        <p>
+            Los motores de bases de datos relacionales son sistemas utilizados
+            para almacenar, organizar, consultar y administrar información
+            estructurada. Aunque comparten características como el uso de
+            tablas, relaciones y SQL, cada motor presenta diferentes
+            características, ventajas y escenarios de uso.
+        </p>
+
+        <br>
+
+        <p>
+            En esta comparativa se analizan seis motores de bases de datos:
+            Oracle Database, Microsoft SQL Server, MySQL, PostgreSQL, SQLite
+            y MariaDB. Seleccione cualquiera de ellos para consultar sus
+            principales características y casos de uso.
+        </p>
+    </section>
+
+
+    <!-- MOTORES -->
+
+    <div class="motores">
+
+        <div class="motor activo" onclick="mostrarMotor('oracle', this)">
+            <h3>Oracle Database</h3>
+            <p>Orientado principalmente a entornos empresariales.</p>
+            <span>Empresarial</span>
+        </div>
+
+        <div class="motor" onclick="mostrarMotor('sqlserver', this)">
+            <h3>Microsoft SQL Server</h3>
+            <p>Motor empresarial integrado con tecnologías Microsoft.</p>
+            <span>Microsoft</span>
+        </div>
+
+        <div class="motor" onclick="mostrarMotor('mysql', this)">
+            <h3>MySQL</h3>
+            <p>Muy utilizado en aplicaciones y sistemas web.</p>
+            <span>Web</span>
+        </div>
+
+        <div class="motor" onclick="mostrarMotor('postgresql', this)">
+            <h3>PostgreSQL</h3>
+            <p>Motor de código abierto con características avanzadas.</p>
+            <span>Open Source</span>
+        </div>
+
+        <div class="motor" onclick="mostrarMotor('sqlite', this)">
+            <h3>SQLite</h3>
+            <p>Base de datos ligera integrada directamente en aplicaciones.</p>
+            <span>Embebido</span>
+        </div>
+
+        <div class="motor" onclick="mostrarMotor('mariadb', this)">
+            <h3>MariaDB</h3>
+            <p>Alternativa de código abierto relacionada con MySQL.</p>
+            <span>Open Source</span>
+        </div>
+
+    </div>
+
+
+    <!-- INFORMACIÓN DINÁMICA -->
+
+    <section class="detalle" id="detalle">
+
+        <h2 id="tituloMotor">Oracle Database</h2>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <h3>Descripción</h3>
+                <p id="descripcion"></p>
+            </div>
+
+            <div class="info-box">
+                <h3>Fortaleza principal</h3>
+                <p id="fortaleza"></p>
+            </div>
+
+            <div class="info-box">
+                <h3>¿Cuándo utilizarlo?</h3>
+                <p id="uso"></p>
+            </div>
+
+            <div class="info-box">
+                <h3>Características</h3>
+                <p id="caracteristicas"></p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMPARACIÓN -->
+
+    <section class="comparacion">
+
+        <h2>Comparación de los seis motores</h2>
+
+        <div class="busqueda">
+            <input
+                type="text"
+                id="buscador"
+                placeholder="Buscar por motor, uso, característica..."
+                onkeyup="buscar()"
+            >
+        </div>
+
+        <table id="tabla">
+
+            <thead>
+
+                <tr>
+                    <th>Motor</th>
+                    <th>Tipo / enfoque</th>
+                    <th>Ventaja principal</th>
+                    <th>Uso recomendado</th>
+                    <th>Relación con otros</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Oracle Database</td>
+                    <td>Empresarial</td>
+                    <td>Escalabilidad y capacidades empresariales</td>
+                    <td>Sistemas críticos y grandes organizaciones</td>
+                    <td>Comparte SQL y el modelo relacional</td>
+                </tr>
+
+                <tr>
+                    <td>Microsoft SQL Server</td>
+                    <td>Empresarial</td>
+                    <td>Integración con Microsoft y BI</td>
+                    <td>Empresas, analítica y sistemas corporativos</td>
+                    <td>Utiliza SQL y T-SQL</td>
+                </tr>
+
+                <tr>
+                    <td>MySQL</td>
+                    <td>Web / propósito general</td>
+                    <td>Popularidad y facilidad de uso</td>
+                    <td>Aplicaciones web y sistemas de información</td>
+                    <td>Relacionado históricamente con MariaDB</td>
+                </tr>
+
+                <tr>
+                    <td>PostgreSQL</td>
+                    <td>Propósito general / avanzado</td>
+                    <td>Funciones avanzadas y extensibilidad</td>
+                    <td>Aplicaciones complejas y backend</td>
+                    <td>Comparte SQL y modelo relacional</td>
+                </tr>
+
+                <tr>
+                    <td>SQLite</td>
+                    <td>Embebido</td>
+                    <td>Ligero y no necesita servidor independiente</td>
+                    <td>Aplicaciones móviles, escritorio y dispositivos</td>
+                    <td>Utiliza SQL pero tiene arquitectura diferente</td>
+                </tr>
+
+                <tr>
+                    <td>MariaDB</td>
+                    <td>Open Source</td>
+                    <td>Compatibilidad histórica con MySQL</td>
+                    <td>Aplicaciones web y servidores</td>
+                    <td>Fork histórico de MySQL</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- SIMILITUDES -->
+
+    <section class="seccion">
+
+        <h2>Similitudes</h2>
+
+        <ul>
+
+            <li>
+                Todos están relacionados con la gestión de datos
+                estructurados mediante el modelo relacional.
+            </li>
+
+            <li>
+                Utilizan SQL como lenguaje principal para consultar y
+                manipular información.
+            </li>
+
+            <li>
+                Permiten trabajar con tablas, registros y relaciones.
+            </li>
+
+            <li>
+                Pueden utilizar claves primarias y claves foráneas.
+            </li>
+
+            <li>
+                Permiten implementar restricciones para mantener la
+                integridad de los datos.
+            </li>
+
+            <li>
+                Pueden utilizar índices para mejorar el rendimiento de
+                determinadas consultas.
+            </li>
+
+            <li>
+                La mayoría permite trabajar con transacciones y mecanismos
+                para mantener la consistencia de los datos.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- DIFERENCIAS -->
+
+    <section class="seccion">
+
+        <h2>Diferencias principales</h2>
+
+        <ul>
+
+            <li>
+                <strong>Oracle:</strong> destaca en ambientes empresariales
+                de gran escala y sistemas críticos.
+            </li>
+
+            <li>
+                <strong>SQL Server:</strong> tiene una integración especialmente
+                fuerte con el ecosistema Microsoft.
+            </li>
+
+            <li>
+                <strong>MySQL:</strong> es una alternativa muy utilizada para
+                aplicaciones web.
+            </li>
+
+            <li>
+                <strong>PostgreSQL:</strong> destaca por sus funciones avanzadas,
+                extensibilidad y capacidades para consultas complejas.
+            </li>
+
+            <li>
+                <strong>SQLite:</strong> funciona de forma embebida y no
+                necesita un servidor independiente.
+            </li>
+
+            <li>
+                <strong>MariaDB:</strong> mantiene una relación histórica
+                cercana con MySQL y se desarrolla como proyecto independiente.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- RECOMENDACIONES -->
+
+    <section class="seccion">
+
+        <h2>¿Cuál elegir según el proyecto?</h2>
+
+        <ul>
+
+            <li>
+                <strong>Aplicación web:</strong> MySQL o MariaDB.
+            </li>
+
+            <li>
+                <strong>Aplicación con consultas complejas:</strong> PostgreSQL.
+            </li>
+
+            <li>
+                <strong>Empresa que utiliza tecnologías Microsoft:</strong>
+                SQL Server.
+            </li>
+
+            <li>
+                <strong>Sistema empresarial de gran escala:</strong>
+                Oracle Database.
+            </li>
+
+            <li>
+                <strong>Aplicación móvil o almacenamiento local:</strong>
+                SQLite.
+            </li>
+
+            <li>
+                <strong>Proyecto Open Source relacionado con el ecosistema
+                MySQL:</strong> MariaDB.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- REFERENCIAS -->
+
+    <section class="seccion referencias">
+
+        <h2>Referencias</h2>
+
+        <p>
+            EDteam. (s. f.). 
+            <a href="https://ed.team/blog/6-motores-de-bases-de-datos-sql"
+               target="_blank">
+                6 motores de bases de datos SQL
+            </a>
+        </p>
+
+        <p>
+            Databricks. (s. f.).
+            <a href="https://www.databricks.com/es/blog/what-is-relational-database"
+               target="_blank">
+                ¿Qué es una base de datos relacional?
+            </a>
+        </p>
+
+        <p>
+            Aprende SQL. (s. f.).
+            <a href="https://www.aprendesql.dev/motores-de-bases-de-datos/"
+               target="_blank">
+                Motores de bases de datos
+            </a>
+        </p>
+
+        <p>
+            PostgreSQL.
+            <a href="https://www.postgresql.org/docs/"
+               target="_blank">
+                Documentación oficial
+            </a>
+        </p>
+
+        <p>
+            SQLite.
+            <a href="https://sqlite.org/docs.html"
+               target="_blank">
+                Documentación oficial
+            </a>
+        </p>
+
+        <p>
+            MariaDB.
+            <a href="https://mariadb.com/docs/"
+               target="_blank">
+                Documentación oficial
+            </a>
+        </p>
+
+        <p>
+            Microsoft.
+            <a href="https://learn.microsoft.com/sql/"
+               target="_blank">
+                SQL Server - documentación oficial
+            </a>
+        </p>
+
+    </section>
+
+</div>
+
+
+<footer>
+    <p>
+        Comparativa interactiva de motores de bases de datos relacionales
+    </p>
+
+    <p>
+        Juan José Serrano
+    </p>
+</footer>
+
+
+<script>
+
+    const motores = {
+
+        oracle: {
+            titulo: "Oracle Database",
+            descripcion:
+                "Sistema de gestión de bases de datos relacional orientado principalmente a organizaciones y aplicaciones empresariales que requieren capacidades avanzadas de administración, disponibilidad y escalabilidad.",
+
+            fortaleza:
+                "Escalabilidad, administración de grandes cantidades de información y características orientadas a sistemas empresariales.",
+
+            uso:
+                "Bancos, grandes empresas, sistemas críticos, aplicaciones corporativas y organizaciones que requieren una infraestructura de base de datos robusta.",
+
+            caracteristicas:
+                "Base de datos relacional, SQL, transacciones, alta disponibilidad, seguridad, escalabilidad y herramientas empresariales."
+        },
+
+        sqlserver: {
+            titulo: "Microsoft SQL Server",
+
+            descripcion:
+                "Sistema de gestión de bases de datos relacional desarrollado por Microsoft y utilizado ampliamente en ambientes empresariales.",
+
+            fortaleza:
+                "Integración con el ecosistema Microsoft y herramientas relacionadas con análisis y Business Intelligence.",
+
+            uso:
+                "Empresas, sistemas corporativos, aplicaciones empresariales, análisis de datos y soluciones integradas con productos Microsoft.",
+
+            caracteristicas:
+                "SQL, T-SQL, transacciones, procedimientos almacenados, seguridad, herramientas de administración e integración con tecnologías Microsoft."
+        },
+
+        mysql: {
+            titulo: "MySQL",
+
+            descripcion:
+                "Sistema de gestión de bases de datos relacional ampliamente utilizado en aplicaciones web y sistemas de información.",
+
+            fortaleza:
+                "Popularidad, facilidad de uso y amplio ecosistema relacionado con el desarrollo web.",
+
+            uso:
+                "Sitios web, aplicaciones web, sistemas de información, CMS y proyectos que necesitan una base de datos relacional de propósito general.",
+
+            caracteristicas:
+                "SQL, tablas, relaciones, índices, transacciones, claves primarias, claves foráneas y amplio uso en aplicaciones web."
+        },
+
+        postgresql: {
+            titulo: "PostgreSQL",
+
+            descripcion:
+                "Sistema de gestión de bases de datos objeto-relacional de código abierto reconocido por sus capacidades avanzadas y extensibilidad.",
+
+            fortaleza:
+                "Consultas complejas, extensibilidad, integridad de datos y gran cantidad de funcionalidades avanzadas.",
+
+            uso:
+                "Aplicaciones backend, sistemas complejos, análisis de datos, aplicaciones empresariales y proyectos que necesitan características avanzadas.",
+
+            caracteristicas:
+                "SQL, transacciones, claves foráneas, funciones, consultas complejas, extensiones, tipos de datos avanzados y soporte para JSON."
+        },
+
+        sqlite: {
+            titulo: "SQLite",
+
+            descripcion:
+                "Motor de base de datos relacional ligero que funciona de manera embebida dentro de las aplicaciones y no necesita un servidor independiente.",
+
+            fortaleza:
+                "Simplicidad, bajo consumo de recursos y facilidad para almacenar información localmente.",
+
+            uso:
+                "Aplicaciones móviles, aplicaciones de escritorio, dispositivos embebidos, prototipos y sistemas que necesitan almacenamiento local.",
+
+            caracteristicas:
+                "SQL, archivo único de base de datos, arquitectura embebida, bajo consumo de recursos y ausencia de un servidor independiente."
+        },
+
+        mariadb: {
+            titulo: "MariaDB",
+
+            descripcion:
+                "Sistema de gestión de bases de datos relacional de código abierto que nació como un fork de MySQL y mantiene una relación histórica con este motor.",
+
+            fortaleza:
+                "Código abierto, compatibilidad histórica con MySQL y características adicionales desarrolladas por el proyecto.",
+
+            uso:
+                "Aplicaciones web, servidores, sistemas de información y proyectos que buscan una alternativa de código abierto relacionada con MySQL.",
+
+            caracteristicas:
+                "SQL, tablas, relaciones, transacciones, índices, claves, compatibilidad histórica con MySQL y funcionalidades propias."
+        }
+
+    };
+
+
+    function mostrarMotor(nombre, elemento) {
+
+        const motor = motores[nombre];
+
+        document.getElementById("tituloMotor").textContent =
+            motor.titulo;
+
+        document.getElementById("descripcion").textContent =
+            motor.descripcion;
+
+        document.getElementById("fortaleza").textContent =
+            motor.fortaleza;
+
+        document.getElementById("uso").textContent =
+            motor.uso;
+
+        document.getElementById("caracteristicas").textContent =
+            motor.caracteristicas;
+
+
+        const tarjetas =
+            document.querySelectorAll(".motor");
+
+        tarjetas.forEach(tarjeta => {
+            tarjeta.classList.remove("activo");
+        });
+
+        elemento.classList.add("activo");
+    }
+
+
+    function buscar() {
+
+        const texto =
+            document.getElementById("buscador")
+            .value
+            .toLowerCase();
+
+        const filas =
+            document.querySelectorAll("#tabla tbody tr");
+
+        filas.forEach(fila => {
+
+            const contenido =
+                fila.textContent.toLowerCase();
+
+            if (contenido.includes(texto)) {
+
+                fila.style.display = "";
+
+            } else {
+
+                fila.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    // Mostrar Oracle al cargar la página
+
+    mostrarMotor(
+        "oracle",
+        document.querySelector(".motor")
+    );
+
+</script>
+
+</body>
+</html>
